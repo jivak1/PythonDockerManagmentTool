@@ -50,7 +50,7 @@ def test_search_image_when_exists():
     docker_client.images.remove("ubuntu:22.04")
     
     assert response.status_code == 200
-    assert response_json == {"name": "ubuntu:22.04"}
+    assert response_json == {"name": "ubuntu", "tag": "22.04"}
     
 def test_search_image_with_no_tag_when_exists():
     docker_client.images.pull("ubuntu:latest")
@@ -62,7 +62,7 @@ def test_search_image_with_no_tag_when_exists():
     docker_client.images.remove("ubuntu:latest")
     
     assert response.status_code == 200
-    assert response_json == {"name": "ubuntu:latest"}
+    assert response_json == {"name": "ubuntu", "tag": "latest"}
     
 def test_search_image_when_not_exists():
     response = app_client.get("http://127.0.0.1:8000/images/search?image_name=noimage&tag=nada")
