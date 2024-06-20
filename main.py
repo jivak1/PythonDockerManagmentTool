@@ -128,6 +128,10 @@ def stop_container(container_name: str):
         raise HTTPException(
         status_code=404, detail=f"Container with name {container_name} not found"
         )
+    elif container.status == "exited":
+        raise HTTPException(
+        status_code=409, detail=f"Container with name {container_name} not running"
+        )
     else:
         container.stop()
         return {"detail": f"Container with name {container_name} exited"}
