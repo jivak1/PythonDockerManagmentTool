@@ -10,7 +10,7 @@ def is_container_running(container_name):
     container = docker_client.containers.get(container_name)
     return container.status == 'running'
 
-def stop_ubuntu_container():
+def stop_and_remove_ubuntu_container():
     container = docker_client.containers.get("ubuntu_container")
     
     container.stop()
@@ -112,7 +112,7 @@ def stop_ubuntu_container():
     
 #     response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container&tag=22.04")
     
-#     stop_ubuntu_container()
+#     stop_and_remove_ubuntu_container()
     
 #     docker_client.images.remove("ubuntu:22.04")
 
@@ -126,7 +126,7 @@ def stop_ubuntu_container():
     
 #     response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container")
     
-#     stop_ubuntu_container()
+#     stop_and_remove_ubuntu_container()
 
 #     docker_client.images.remove("ubuntu:latest")
 
@@ -155,7 +155,7 @@ def stop_ubuntu_container():
     
 #     response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=ubuntu_container")
     
-#     stop_ubuntu_container()
+#     stop_and_remove_ubuntu_container()
     
 #     docker_client.images.remove("ubuntu")
     
@@ -181,7 +181,7 @@ def stop_ubuntu_container():
     
 #     response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container")
 
-#     stop_ubuntu_container()
+#     stop_and_remove_ubuntu_container()
     
 #     docker_client.images.remove("ubuntu")
     
@@ -216,24 +216,83 @@ def stop_ubuntu_container():
 #     assert response.status_code == 404
 #     assert response_json == {"detail": "Container with name nocontainer_exists not found"}
 
+def test_remove_container_that_exists_and_is_stopped():
+    # docker_client.images.pull("ubuntu")
+    
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
+    
+    container = docker_client.containers.get("ubuntu_container")
+    
+    container.stop()
+    
+    response = app_client.delete("http://127.0.0.1:8000/containers/remove?container_name=ubuntu_container")
+
+    
+    # docker_client.images.remove("ubuntu")
+    
+    response_json = response.json()
+    
+    assert response.status_code == 200
+    assert response_json == {"detail": "Container ubuntu_container successfully removed"}
+    
+def test_remove_container_that_exists_and_is_running():
+    # docker_client.images.pull("ubuntu")
+    
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)        
+    
+    response = app_client.delete("http://127.0.0.1:8000/containers/remove?container_name=ubuntu_container")
+
+    stop_and_remove_ubuntu_container()
+    
+    # docker_client.images.remove("ubuntu")
+    
+    response_json = response.json()
+    
+    assert response.status_code == 400
+    assert response_json == {"detail": "Container ubuntu_container is running. Please stop the container before removing"}
+    
+def test_remove_container_that_not_exists():
+    response = app_client.delete("http://127.0.0.1:8000/containers/remove?container_name=nocontainer_nada")
+        
+    response_json = response.json()
+    
+    assert response.status_code == 404
+    assert response_json == {"detail": "Container with name nocontainer_nada not found"}
+
 def test_find_container_that_exists_and_is_running():
+    # docker_client.images.pull("ubuntu")
+    
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
+    
     container = docker_client.containers.get("ubuntu_container")
     
     container.start()
     
     response = app_client.get("http://127.0.0.1:8000/containers/search?container_name=ubuntu_container")
     
-    container.stop()
+    stop_and_remove_ubuntu_container()
     
+    # docker_client.images.remove("ubuntu")
+  
     response_json = response.json()
     
     assert response.status_code == 200
     assert response_json == {"detail": "Container ubuntu_container found and is running"}
      
 def test_find_container_that_exists_and_is_exited():
+    # docker_client.images.pull("ubuntu")
+
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
+    
+    docker_client.containers.get("ubuntu_container").stop()
+
     response = app_client.get("http://127.0.0.1:8000/containers/search?container_name=ubuntu_container")
     
     response_json = response.json()
+    
+    stop_and_remove_ubuntu_container()
+    
+    # docker_client.images.remove("ubuntu")
     
     assert response.status_code == 200
     assert response_json == {"detail": "Container ubuntu_container found and is exited"}
