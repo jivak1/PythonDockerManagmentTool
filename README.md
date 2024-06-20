@@ -102,7 +102,7 @@ A FastAPI application that allows simple management of Docker containers through
 2. Says can't remove the container if the container is running - X
 3. Says no such container if the container doesn't exist locally - X
 
-#### `/containers/list` - Not doing because there can be no way to guarantee consistency
+#### `/containers/list` - Not doing because there is no way to guarantee consistency
 
 1. Prints all containers
 2. Prints an empty list if no containers
