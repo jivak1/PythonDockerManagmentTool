@@ -47,37 +47,37 @@ def stop_and_remove_ubuntu_container():
 #     assert response.status_code == 404
 #     assert response_json == {"detail": "Image noimage:nada does not exist on dockerhub"}
     
-# def test_search_image_when_exists():
-#     docker_client.images.pull("ubuntu:22.04")
+def test_search_image_when_exists():
+    # docker_client.images.pull("ubuntu:22.04")
     
-#     response = app_client.get("http://127.0.0.1:8000/images/search?image_name=ubuntu&tag=22.04")
+    response = app_client.get("http://127.0.0.1:8000/images/search?image_name=ubuntu&tag=22.04")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     docker_client.images.remove("ubuntu:22.04")
+    # docker_client.images.remove("ubuntu:22.04")
     
-#     assert response.status_code == 200
-#     assert response_json == {"name": "ubuntu", "tag": "22.04"}
+    assert response.status_code == 200
+    assert response_json == {"name": "ubuntu", "tag": "22.04"}
     
-# def test_search_image_with_no_tag_when_exists():
-#     docker_client.images.pull("ubuntu:latest")
+def test_search_image_with_no_tag_when_exists():
+    # docker_client.images.pull("ubuntu:latest")
     
-#     response = app_client.get("http://127.0.0.1:8000/images/search?image_name=ubuntu")
+    response = app_client.get("http://127.0.0.1:8000/images/search?image_name=ubuntu")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     docker_client.images.remove("ubuntu:latest")
+    # docker_client.images.remove("ubuntu:latest")
     
-#     assert response.status_code == 200
-#     assert response_json == {"name": "ubuntu", "tag": "latest"}
+    assert response.status_code == 200
+    assert response_json == {"name": "ubuntu", "tag": "latest"}
     
-# def test_search_image_when_not_exists():
-#     response = app_client.get("http://127.0.0.1:8000/images/search?image_name=noimage&tag=nada")
+def test_search_image_when_not_exists():
+    response = app_client.get("http://127.0.0.1:8000/images/search?image_name=noimage&tag=nada")
     
-#     response_json = response.json()
+    response_json = response.json()
         
-#     assert response.status_code == 404
-#     assert response_json == {"detail": "Image noimage:nada is not pulled localy"}
+    assert response.status_code == 404
+    assert response_json == {"detail": "Image noimage:nada is not pulled localy"}
 
 # def test_remove_image_when_exists():
 #     docker_client.images.pull("ubuntu:22.04")
@@ -107,62 +107,62 @@ def stop_and_remove_ubuntu_container():
 #     assert response.status_code == 404
 #     assert response_json == {"detail": "Image noimage:nada is not pulled localy and can't be removed"}
     
-# def test_run_container_when_image_exists():
-#     docker_client.images.pull("ubuntu:22.04")
+def test_run_container_when_image_exists():
+    # docker_client.images.pull("ubuntu:22.04")
     
-#     response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container&tag=22.04")
+    response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container&tag=22.04")
     
-#     stop_and_remove_ubuntu_container()
+    stop_and_remove_ubuntu_container()
     
-#     docker_client.images.remove("ubuntu:22.04")
+    # docker_client.images.remove("ubuntu:22.04")
 
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 200
-#     assert response_json == {"image": "ubuntu:22.04", "container_name": "ubuntu_container"}
+    assert response.status_code == 200
+    assert response_json == {"image": "ubuntu:22.04", "container_name": "ubuntu_container"}
     
-# def test_run_container_when_image_with_no_tag_exists():
-#     docker_client.images.pull("ubuntu:latest")
+def test_run_container_when_image_with_no_tag_exists():
+    # docker_client.images.pull("ubuntu:latest")
     
-#     response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container")
+    response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container")
     
-#     stop_and_remove_ubuntu_container()
+    stop_and_remove_ubuntu_container()
 
-#     docker_client.images.remove("ubuntu:latest")
+    # docker_client.images.remove("ubuntu:latest")
 
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 200
-#     assert response_json == {"image": "ubuntu:latest", "container_name": "ubuntu_container"}
+    assert response.status_code == 200
+    assert response_json == {"image": "ubuntu:latest", "container_name": "ubuntu_container"}
     
-# def test_run_container_when_image_not_pulled():
-#     response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=noimage&container_name=ubuntu_container&tag=nada")
+def test_run_container_when_image_not_pulled():
+    response = app_client.post("http://127.0.0.1:8000/containers/run?image_name=noimage&container_name=ubuntu_container&tag=nada")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 404
-#     assert response_json == {"detail": "Image noimage:nada is not pulled localy"}
+    assert response.status_code == 404
+    assert response_json == {"detail": "Image noimage:nada is not pulled localy"}
     
-# def test_run_container_fails_without_arguments():
-#     response = app_client.post("http://127.0.0.1:8000/containers/run")
+def test_run_container_fails_without_arguments():
+    response = app_client.post("http://127.0.0.1:8000/containers/run")
         
-#     assert response.status_code == 422
+    assert response.status_code == 422
     
-# def test_start_container_that_exists():
-#     docker_client.images.pull("ubuntu")
+def test_start_container_that_exists():
+    # docker_client.images.pull("ubuntu")
     
-#     docker_client.containers.run("ubuntu", name="ubuntu_container", detach=True)
+    docker_client.containers.run("ubuntu", name="ubuntu_container", detach=True)
     
-#     response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=ubuntu_container")
+    response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=ubuntu_container")
     
-#     stop_and_remove_ubuntu_container()
+    stop_and_remove_ubuntu_container()
     
-#     docker_client.images.remove("ubuntu")
+    # docker_client.images.remove("ubuntu")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 200
-#     assert response_json == {"container_name": "ubuntu_container"}
+    assert response.status_code == 200
+    assert response_json == {"container_name": "ubuntu_container"}
     
 # def test_start_container_that_not_exists():
 #     response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=nocontainer_exists")
