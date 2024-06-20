@@ -1,114 +1,74 @@
-# Application Definition
+# FastAPI Docker Manager
 
-A FastAPI application that allows simple management of Docker containers through HTTP requests.
+## Overview
+
+The FastAPI Docker Manager is a web application that provides an HTTP API for managing Docker containers and images. It allows users to perform various operations such as pulling images, running containers, and more through simple HTTP requests.
 
 ## Functionalities
 
-1. Pull Docker container image if not available
-2. Run Docker container
-3. Start Docker container
-4. Stop Docker container
-5. Remove Docker container
-6. Remove Docker image
-7. Search Docker container by name
-8. Search Docker image by name
-9. List all Docker images
-10. List all Docker containers
+1. Pull Docker container image if not available (Done)
+2. Run Docker container (Done)
+3. Start Docker container (Done)
+4. Stop Docker container (Done)
+5. Remove Docker container (Done)
+6. Remove Docker image (Done)
+7. Search Docker container by name (Done)
+8. Search Docker image by name (Done)
+9. List all Docker images (Done)
+10. List all Docker containers (Done)
 
 ## Script Demo
 
-1. Basic script that lets you choose options and interact with the API - X
-2. Navigation done with character input from the user - X
-3. Take user input from CLI if needed (pulling of images, creating containers, etc.) - X
-4. Display appropriate messages based on server response (no random JSONs flying around) - X
+1. Basic script that lets you choose options and interact with the API (Done)
+2. Navigation done with character input from the user (Done)
+3. Take user input from CLI if needed (pulling images, creating containers, etc.) (Done)
+4. Display appropriate messages based on server response (no random JSONs flying around) (Done)
 
-## Optional
+## Optional Features
 
 - Create a frontend web application to work with the API
-  - Make FastAPI return HTML on requests
-  - JavaScript Node.js server to handle frontend
-  - ???
+  - Make FastAPI return HTML on requests (Pending)
+  - JavaScript Node.js server to handle frontend (Pending)
+  - Additional features to be determined (Pending)
 
-## Endpoints
+## API Endpoints
 
-### `/images` - Done
+### Image Management
 
-- `/images/pull?{name}` - X
-- `/images/remove?{name}` - X
-- `/images/list` - X
-- `/images/search?{name}` - X
+- `POST /images/pull?name={name}&tag={tag}` - Pull an image (Done)
+- `DELETE /images/remove?name={name}&tag={tag}` - Remove an image (Done)
+- `GET /images/list` - List all images (Done)
+- `GET /images/search?name={name}&tag={tag}` - Search for an image (Done)
 
-### `/containers` - Done
+### Container Management
 
-- `/containers/run?{name}` - X
-- `/containers/start?{name}` - X
-- `/containers/stop?{name}` - X
-- `/containers/remove?{name}` - X
-- `/containers/list` - X
-- `/containers/search?{name}` - X
-
----
+- `POST /containers/run?name={name}&image_name={image_name}&tag={tag}` - Run a container (Done)
+- `PATCH /containers/start?name={name}` - Start a container (Done)
+- `PATCH /containers/stop?name={name}` - Stop a container (Done)
+- `DELETE /containers/remove?name={name}` - Remove a container (Done)
+- `GET /containers/list` - List all containers (Done)
+- `GET /containers/search?name={name}` - Search for a container (Done)
 
 ## Testing Plan
 
 !!!Tests assume the user has `ubuntu:latest` and `ubuntu:22.04` already pulled!!!
 
-### I) Functional Tests
+### Functional Tests
 
-#### `/images/pull?{name}` - Done
+#### Image Operations
 
-1. Pulls existing image - X
-2. Says not found when image is not found - X
-3. If image tag is not specified, it tries to pull the image with tag `latest` - X
+- `POST /images/pull?name={name}&tag={tag}` - Test pulling existing and non-existing images, and default to `latest` tag if not specified. (Done)
+- `DELETE /images/remove?name={name}&tag={tag}` - Test removing existing and non-existing images, and default to `latest` tag if not specified. (Done)
+- `GET /images/search?name={name}&tag={tag}` - Test searching for existing and non-existing images, and default to `latest` tag if not specified. (Done)
 
-#### `/images/remove?{name}` - Done
+#### Container Operations
 
-1. Removes an existing image - X
-2. Says image not found if the image doesn't exist locally - X
-3. If image tag is not specified, it tries to remove the image with tag `latest` - X
+- `POST /containers/run?name={name}&image_name={image_name}&tag={tag}` - Test running containers with correct and incorrect image names/tags. (Done)
+- `PATCH /containers/start?name={name}` - Test starting existing and non-existing containers. (Done)
+- `PATCH /containers/stop?name={name}` - Test stopping running and non-running containers. (Done)
+- `DELETE /containers/remove?name={name}` - Test removing existing, running, and non-existing containers. (Done)
+- `GET /containers/search?name={name}` - Test searching for existing and non-existing containers. (Done)
 
-#### `/images/list` - Not doing because there is no way to guarantee consistency
+Note: Some tests related to listing images and containers are not included due to the inability to guarantee consistency in the test environment.
 
-1. Prints all images
-2. Prints an empty list if no images on host
-
-#### `/images/search?{name}` - Done
-
-1. Finds existing image - X
-2. Says image doesn't exist if not pulled locally - X
-3. If no tag is specified, searches for the image name with tag `latest` - X
-
-#### `/containers/run?{name}` - Done
-
-1. Runs a container with the right image name and tag and container name - X
-2. Runs a container with the right image name and container name but no tag (latest) - X
-3. Says image not pulled locally if the image doesn't exist - X
-4. Returns an assertion error when no container name or image name - X
-
-#### `/containers/start?{name}` - Done
-
-1. Starts an existing container with the correct container name - X
-2. Says no such container exists with the name of a non-existing container - X
-
-#### `/containers/stop?{name}` - Done
-
-1. Stops an already started container - X
-2. Says no such container if the container doesn't exist - X
-3. Says container not running if the container is not running - X
-
-#### `/containers/remove?{name}` - Done
-
-1. Removes an existing container if it is not running - X
-2. Says can't remove the container if the container is running - X
-3. Says no such container if the container doesn't exist locally - X
-
-#### `/containers/list` - Not doing because there is no way to guarantee consistency
-
-1. Prints all containers
-2. Prints an empty list if no containers
-
-#### `/containers/search?{name}` - Done
-
-1. Finds an existing container by name - X
-2. Says container not found when no container with that name - X
 
