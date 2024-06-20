@@ -6,6 +6,14 @@ import docker
 app_client = TestClient(app)
 docker_client = docker.from_env()
 
+try:
+    docker_client.containers.list()
+    print("Docker client is working.")
+except Exception as e:
+        
+    print(f"An error occurred: {e}")
+    exit()
+
 def is_container_running(container_name):
     container = docker_client.containers.get(container_name)
     return container.status == 'running'
@@ -164,57 +172,57 @@ def test_start_container_that_exists():
     assert response.status_code == 200
     assert response_json == {"container_name": "ubuntu_container"}
     
-# def test_start_container_that_not_exists():
-#     response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=nocontainer_exists")
+def test_start_container_that_not_exists():
+    response = app_client.patch("http://127.0.0.1:8000/containers/start?container_name=nocontainer_exists")
     
-#     response_json = response.json()
+    response_json = response.json()
 
-#     assert response.status_code == 404
-#     assert response_json == {"detail": "Container with name nocontainer_exists not found"}
+    assert response.status_code == 404
+    assert response_json == {"detail": "Container with name nocontainer_exists not found"}
     
-# def test_stops_container_that_exists():
-#     docker_client.images.pull("ubuntu")
+def test_stops_container_that_exists():
+    # docker_client.images.pull("ubuntu")
     
-#     docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
     
-#     docker_client.containers.get("ubuntu_container").start()
+    docker_client.containers.get("ubuntu_container").start()
     
-#     response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container")
+    response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container")
 
-#     stop_and_remove_ubuntu_container()
+    stop_and_remove_ubuntu_container()
     
-#     docker_client.images.remove("ubuntu")
+    # docker_client.images.remove("ubuntu")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 200
-#     assert response_json == {"detail": "Container with name ubuntu_container exited"}
+    assert response.status_code == 200
+    assert response_json == {"detail": "Container with name ubuntu_container exited"}
 
-# def test_stops_container_that_exists():
-#     docker_client.images.pull("ubuntu")
+def test_stops_container_that_exists():
+    # docker_client.images.pull("ubuntu")
     
-#     docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
+    docker_client.containers.run("ubuntu", name="ubuntu_container", stdin_open=True, tty=True, detach=True)
         
-#     response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container")
+    response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container")
 
-#     container = docker_client.containers.get("ubuntu_container")
+    container = docker_client.containers.get("ubuntu_container")
     
-#     container.remove()
+    container.remove()
     
-#     docker_client.images.remove("ubuntu")
+    # docker_client.images.remove("ubuntu")
     
-#     response_json = response.json()
+    response_json = response.json()
     
-#     assert response.status_code == 409
-#     assert response_json == {"detail": "Container with name ubuntu_container not running"}
+    assert response.status_code == 409
+    assert response_json == {"detail": "Container with name ubuntu_container not running"}
     
-# def test_stop_container_that_not_exists():
-#     response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=nocontainer_exists")
+def test_stop_container_that_not_exists():
+    response = app_client.patch("http://127.0.0.1:8000/containers/stop?container_name=nocontainer_exists")
     
-#     response_json = response.json()
+    response_json = response.json()
 
-#     assert response.status_code == 404
-#     assert response_json == {"detail": "Container with name nocontainer_exists not found"}
+    assert response.status_code == 404
+    assert response_json == {"detail": "Container with name nocontainer_exists not found"}
 
 def test_remove_container_that_exists_and_is_stopped():
     # docker_client.images.pull("ubuntu")

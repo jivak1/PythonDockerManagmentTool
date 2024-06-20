@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
 import docker
+from docker import DockerClient
 from docker.models.containers import Container
 from docker.errors import ImageNotFound, NotFound
 
@@ -8,25 +9,33 @@ from typing import List
 
 client = docker.from_env()
 
+try:
+    client.containers.list()
+    print("Docker client is working.")
+except Exception as e:
+        
+    print(f"An error occurred: {e}")
+    exit()
+
 app = FastAPI()
 
-def check_image_exists(image_name: str, tag: str):
+def check_image_exists(image_name: str, tag: str, docker_client: DockerClient):
     try:
-        manifest = client.images.get_registry_data(f"{image_name}:{tag}")
+        manifest = docker_client.images.get_registry_data(f"{image_name}:{tag}")
         return True
     except Exception as e:
         return False
     
-def find_image_on_local(image_name: str, tag: str):
+def find_image_on_local(image_name: str, tag: str, docker_client: DockerClient):
     try:
-        image = client.images.get(f"{image_name}:{tag}")
+        image = docker_client.images.get(f"{image_name}:{tag}")
         return image
     except ImageNotFound:
         return None
         
-def find_container_on_local(container_name: str):
+def find_container_on_local(container_name: str, docker_client: DockerClient):
     try:
-        container = client.containers.get(container_name)
+        container = docker_client.containers.get(container_name)
         return container
     except NotFound:
         return None
@@ -42,7 +51,7 @@ def root():
 
 @app.post("/images/pull")
 def pull_image(image_name: str, tag: str | None = "latest"):
-    if check_image_exists(image_name, tag):
+    if check_image_exists(image_name, tag, client):
         client.images.pull(f"{image_name}:{tag}")
         return {"name": f"{image_name}:{tag}"}
     else:
@@ -52,7 +61,7 @@ def pull_image(image_name: str, tag: str | None = "latest"):
 
 @app.get("/images/search")
 def search_image(image_name: str, tag: str | None = "latest"):
-        image = find_image_on_local(image_name, tag)
+        image = find_image_on_local(image_name, tag, client)
         
         if image is None:
             raise HTTPException(
@@ -63,7 +72,7 @@ def search_image(image_name: str, tag: str | None = "latest"):
             
 @app.delete("/images/remove")
 def remove_image(image_name: str, tag: str | None = "latest"):
-        image = find_image_on_local(image_name, tag)
+        image = find_image_on_local(image_name, tag, client)
       
         if image is None:
             raise HTTPException(
@@ -97,7 +106,7 @@ def get_images_list() -> List[dict]:
         
 @app.post("/containers/run")
 def run_container(image_name: str, container_name: str, tag: str | None = "latest"):    
-    image = find_image_on_local(image_name, tag)
+    image = find_image_on_local(image_name, tag, client)
         
     if image is None:
         raise HTTPException(
@@ -110,7 +119,7 @@ def run_container(image_name: str, container_name: str, tag: str | None = "lates
     
 @app.patch("/containers/start")
 def start_container(container_name: str):
-    container = find_container_on_local(container_name)
+    container = find_container_on_local(container_name, client)
     
     if container is None:
         raise HTTPException(
@@ -122,7 +131,7 @@ def start_container(container_name: str):
 
 @app.patch("/containers/stop")
 def stop_container(container_name: str):
-    container = find_container_on_local(container_name)
+    container = find_container_on_local(container_name, client)
 
     if container is None:
         raise HTTPException(
@@ -138,7 +147,7 @@ def stop_container(container_name: str):
 
 @app.delete("/containers/remove")
 def remove_container(container_name: str):
-    container = find_container_on_local(container_name)
+    container = find_container_on_local(container_name, client)
     
     if container is None:
       raise HTTPException(
@@ -155,7 +164,7 @@ def remove_container(container_name: str):
 
 @app.get("/containers/search")
 def search_container(container_name: str):
-    container = find_container_on_local(container_name)
+    container = find_container_on_local(container_name, client)
     
     if container is None:
         raise HTTPException(
