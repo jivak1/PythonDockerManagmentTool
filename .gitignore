@@ -8,5 +8,5 @@
 !test_main.py
 !user_script.py
 !requirements.txt
-!app/**/*
-!kubernetes/**/*
+!**/app/**/*
+!**/kubernetes/**/*
