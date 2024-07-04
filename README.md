@@ -80,7 +80,7 @@ Note: Some tests related to listing images and containers are not included due t
 
 ### Kubernetes Deployment
 
-- Kubernetes deployment manifest, that creates pods with 3 instances of the app. (Done)
+- Kubernetes deployment manifest, that creates 3 pods with instance of the app. (Done)
 - NodePort service manifest to expose the application to localhost and route trafic to any of the pods. (Done)
 
 Note: The built image shuld be archived in a .tar file and coppied to the kubernetes namespace, so that it can be pulled by the deployment.
