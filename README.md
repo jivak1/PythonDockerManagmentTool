@@ -75,13 +75,13 @@ Note: Some tests related to listing images and containers are not included due t
 
 ### Docker containerisation
 
-- Created a dockerfile, to containerise the application
-- Container runs, but needs docker.sock to be mounted as volume
+- Dockerfile, to containerise the application. (Done)
+- Container runs, but needs docker.sock to be mounted as volume. (Done)
 
 ### Kubernetes Deployment
 
-- Created a kubernetes deployment file, that creates pods with 3 instances of the app
-- Created a NodePort service to expose the application to localhost and route trafic to any of the pods
+- Kubernetes deployment manifest, that creates pods with 3 instances of the app. (Done)
+- NodePort service manifest to expose the application to localhost and route trafic to any of the pods. (Done)
 
-Note: The built image shuld be archived in a .tar file and coppied to the kubernetes namespace, so that it can be pulled by the deployment
+Note: The built image shuld be archived in a .tar file and coppied to the kubernetes namespace, so that it can be pulled by the deployment.
 
