@@ -5,35 +5,35 @@ from typing import List
 import math
 
 # pull image
-# print(requests.get("http://127.0.0.1:8000/images/pull?image_name=ubuntu&tag=22.04").json())
+# print(requests.get("http://127.0.0.1:30000/images/pull?image_name=ubuntu&tag=22.04").json())
 
 # find image
-# print(requests.get("http://127.0.0.1:8000/images/search?image_name=ubuntu&tag=22.04").json())
+# print(requests.get("http://127.0.0.1:30000/images/search?image_name=ubuntu&tag=22.04").json())
 
 #remove image
-# print(requests.delete("http://127.0.0.1:8000/images/remove?image_name=ubuntu&tag=22.04").json())
+# print(requests.delete("http://127.0.0.1:30000/images/remove?image_name=ubuntu&tag=22.04").json())
 
 #list images
-# print(requests.get("http://127.0.0.1:8000/images/list").json())
+# print(requests.get("http://127.0.0.1:30000/images/list").json())
 
 
 # Run container
-# print(requests.post("http://127.0.0.1:8000/containers/run?image_name=ubuntu&container_name=ubuntu_container").json())
+# print(requests.post("http://127.0.0.1:30000/containers/run?image_name=ubuntu&container_name=ubuntu_container").json())
 
 # Start container
-# print(requests.patch("http://127.0.0.1:8000/containers/start?container_name=ubuntu_container").json())
+# print(requests.patch("http://127.0.0.1:30000/containers/start?container_name=ubuntu_container").json())
 
 # Stop container
-# print(requests.patch("http://127.0.0.1:8000/containers/stop?container_name=ubuntu_container").json())
+# print(requests.patch("http://127.0.0.1:30000/containers/stop?container_name=ubuntu_container").json())
 
 #Remove container
-# print(requests.delete("http://127.0.0.1:8000/containers/remove?container_name=ubuntu_container").json())
+# print(requests.delete("http://127.0.0.1:30000/containers/remove?container_name=ubuntu_container").json())
 
 #Find container
-# print(requests.get("http://127.0.0.1:8000/containers/search?container_name=ubuntu_container").json())
+# print(requests.get("http://127.0.0.1:30000/containers/search?container_name=ubuntu_container").json())
 
 #List containers
-# print(requests.get("http://127.0.0.1:8000/containers/list").json())
+# print(requests.get("http://127.0.0.1:30000/containers/list").json())
 
 def go_forward() -> bool:
     user_input = input("Would ou like to continue...[y/n]")
@@ -97,7 +97,7 @@ while True:
         case "1":
             image_info_split = get_image_info()
                
-            response = requests.post(f"http://127.0.0.1:8000/images/pull?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
+            response = requests.post(f"http://127.0.0.1:30000/images/pull?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
 
             response_json = response.json()
             
@@ -114,7 +114,7 @@ while True:
         case "2":                    
             image_info_split = get_image_info()
             
-            response = requests.get(f"http://127.0.0.1:8000/images/search?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
+            response = requests.get(f"http://127.0.0.1:30000/images/search?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
             
             response_json = response.json()
             
@@ -131,7 +131,7 @@ while True:
         case "3":
             image_info_split = get_image_info()
             
-            response = requests.delete(f"http://127.0.0.1:8000/images/remove?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
+            response = requests.delete(f"http://127.0.0.1:30000/images/remove?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else ""))
             
             response_json = response.json()
                         
@@ -142,7 +142,7 @@ while True:
             else:
                 break
         case "4":            
-            response = requests.get(f"http://127.0.0.1:8000/images/list")
+            response = requests.get(f"http://127.0.0.1:30000/images/list")
             
             response_json = response.json()
             
@@ -157,7 +157,7 @@ while True:
             
             container_name = get_container_name()
             
-            response = requests.post(f"http://127.0.0.1:8000/containers/run?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else "") + f"&container_name={container_name}")
+            response = requests.post(f"http://127.0.0.1:30000/containers/run?image_name={image_info_split[0]}" + (f"&tag={image_info_split[1]}" if len(image_info_split) == 2 else "") + f"&container_name={container_name}")
 
             response_json = response.json()
             
@@ -173,7 +173,7 @@ while True:
         case "6":
             container_name = get_container_name()
             
-            response = requests.patch(f"http://127.0.0.1:8000/containers/start?container_name={container_name}")
+            response = requests.patch(f"http://127.0.0.1:30000/containers/start?container_name={container_name}")
             
             response_json = response.json()
             
@@ -189,7 +189,7 @@ while True:
         case "7":
             container_name = get_container_name()
             
-            response = requests.patch(f"http://127.0.0.1:8000/containers/stop?container_name={container_name}")
+            response = requests.patch(f"http://127.0.0.1:30000/containers/stop?container_name={container_name}")
             
             response_json = response.json()
             
@@ -202,7 +202,7 @@ while True:
         case "8":
             container_name = get_container_name()
             
-            response = requests.delete(f"http://127.0.0.1:8000/containers/remove?container_name={container_name}")
+            response = requests.delete(f"http://127.0.0.1:30000/containers/remove?container_name={container_name}")
             
             response_json = response.json()
             
@@ -215,7 +215,7 @@ while True:
         case "9":
             container_name = get_container_name()
             
-            response = requests.get(f"http://127.0.0.1:8000/containers/search?container_name={container_name}")
+            response = requests.get(f"http://127.0.0.1:30000/containers/search?container_name={container_name}")
             
             response_json = response.json()
             
@@ -226,7 +226,7 @@ while True:
             else:
                 break
         case "10":
-            response = requests.get(f"http://127.0.0.1:8000/containers/list")
+            response = requests.get(f"http://127.0.0.1:30000/containers/list")
             
             response_json = response.json()
             
