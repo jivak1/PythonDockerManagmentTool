@@ -71,11 +71,17 @@ The FastAPI Docker Manager is a web application that provides an HTTP API for ma
 
 Note: Some tests related to listing images and containers are not included due to the inability to guarantee consistency in the test environment.
 
-##### Application deployment:
+## Application deployment:
 
-- Created a dockerfile and containerised application
-- Created a custom kubernetes deployment with the container image
-- Created a NodePort service to expose the application to localhost
+### Docker containerisation
 
-Note: Please add the container image to the namespace before kubernetes deployment
+- Created a dockerfile, to containerise the application
+- Container runs, but needs docker.sock to be mounted as volume
+
+### Kubernetes Deployment
+
+- Created a kubernetes deployment file, that creates pods with 3 instances of the app
+- Created a NodePort service to expose the application to localhost and route trafic to any of the pods
+
+Note: The built image shuld be archived in a .tar file and coppied to the kubernetes namespace, so that it can be pulled by the deployment
 
