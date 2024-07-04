@@ -12,3 +12,4 @@
 !service.yaml
 !app/
 !kubernetes/
+!test/
