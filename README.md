@@ -71,7 +71,7 @@ The FastAPI Docker Manager is a web application that provides an HTTP API for ma
 
 Note: Some tests related to listing images and containers are not included due to the inability to guarantee consistency in the test environment.
 
-## Application deployment:
+## Application deployment
 
 ### Docker containerisation
 
@@ -96,5 +96,5 @@ Note: The built image shuld be archived in a .tar file and coppied to the kubern
 
 - Deployed Grafana to Kubernetes using helm
 - Created a nodeport serviceeee to expose to localhost 
-- Set up a dashboard to monitor cluster information(memory, cpu, working nodes)
+- Set up a dashboard to monitor cluster information(memory, cpu, working nodes...)
 
