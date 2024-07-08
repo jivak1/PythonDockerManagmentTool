@@ -85,3 +85,16 @@ Note: Some tests related to listing images and containers are not included due t
 
 Note: The built image shuld be archived in a .tar file and coppied to the kubernetes namespace, so that it can be pulled by the deployment.
 
+## Application monitoring
+
+### Prometheus monitoring
+
+- Deployed Prometheus to Kubernetes using helm
+- Created a nodeport serviceeee to expose to localhost 
+
+### Grafana dashboard
+
+- Deployed Grafana to Kubernetes using helm
+- Created a nodeport serviceeee to expose to localhost 
+- Set up a dashboard to monitor cluster information(memory, cpu, working nodes)
+
