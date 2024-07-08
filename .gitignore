@@ -9,6 +9,7 @@
 !user_script.py
 !requirements.txt
 !deployment.yaml
+!grafana.yaml
 !service.yaml
 !app/
 !kubernetes/
