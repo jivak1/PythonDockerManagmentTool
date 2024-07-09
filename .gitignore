@@ -10,7 +10,9 @@
 !requirements.txt
 !deployment.yaml
 !grafana.yaml
-!service.yaml
+!deployment-node-nodeport.yaml
+!prometheus-monitor.yaml
+!prometheus.yaml
 !app/
 !kubernetes/
 !test/
