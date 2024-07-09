@@ -13,6 +13,7 @@
 !deployment-node-nodeport.yaml
 !prometheus-monitor.yaml
 !prometheus.yaml
+!Dockerfile
 !app/
 !kubernetes/
 !test/
