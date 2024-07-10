@@ -10,7 +10,6 @@ resources:
 
 variables:
   imageName: 'jivak1/python-docker-managment-tool'
-  latestTag: 'latest'
   tag: '$(Build.BuildId)'
 
 stages:
@@ -30,11 +29,11 @@ stages:
     - task: Docker@2
       displayName: Build Docker image
       inputs:
+        repository: $(imageName)
         command: build
         dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
         tags: |
-          $(imageName):$(tag)
-          $(imageName):$(latestTag)
+          $(tag)
         
     - script: docker images
       displayName: List Docker images
