@@ -98,3 +98,12 @@ Note: The built image shuld be archived in a .tar file and coppied to the kubern
 - Created a nodeport serviceeee to expose to localhost (Done)
 - Set up a dashboard to monitor cluster information(memory, cpu, working nodes...) (Done)
 
+## CI/CD
+
+### Azure Devops Container Automation
+
+- Implemented a pipeline to triger on push to main
+- Log in DockerHub
+- Build Image from GitHub repo
+- Push it to DockerHub registry
+
