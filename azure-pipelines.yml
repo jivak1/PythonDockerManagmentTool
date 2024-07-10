@@ -31,6 +31,6 @@ stages:
       displayName: Push Docker image to Docker Hub
       inputs:
         command: push
-        repository: yourdockerhubusername/yourrepositoryname
+        repository: jivak1/python-docker-managment-tool
         tags: |
           $(tag)
