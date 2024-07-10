@@ -32,15 +32,15 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
         tags: |
-           $(imageName):$(tag)
-          
+          $(tag)
+        
     - script: docker images
       displayName: List Docker images
     - task: Docker@2
       displayName: Push Docker image
       inputs:
         command: push
-        repository: jivak1/python-docker-managment-tool
+        repository: '$(imageName)'
         tags: |
-           $(imageName):$(tag)
+           $(tag)
 
