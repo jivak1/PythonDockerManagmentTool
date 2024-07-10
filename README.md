@@ -78,7 +78,7 @@ Note: Some tests related to listing images and containers are not included due t
 - Dockerfile, to containerise the application. (Done)
 - Container runs, but needs docker.sock to be mounted as volume. (Done)
 
-### Kubernetes Deployment
+### Kubernetes deployment
 
 - Kubernetes deployment manifest, that creates 3 pods with instance of the app. (Done)
 - NodePort service manifest to expose the application to localhost and route trafic to any of the pods. (Done)
@@ -100,7 +100,7 @@ Note: The built image shuld be archived in a .tar file and coppied to the kubern
 
 ## CI/CD
 
-### Azure Devops Container Automation
+### Azure Devops container automation pipeline
 
 - Implemented a pipeline to triger on push to main
 - Log in DockerHub
