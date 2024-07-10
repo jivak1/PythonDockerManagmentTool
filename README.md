@@ -89,12 +89,12 @@ Note: The built image shuld be archived in a .tar file and coppied to the kubern
 
 ### Prometheus monitoring
 
-- Deployed Prometheus to Kubernetes using helm
-- Created a nodeport serviceeee to expose to localhost 
+- Deployed Prometheus to Kubernetes using helm (Done)
+- Created a nodeport serviceeee to expose to localhost (Done)
 
 ### Grafana dashboard
 
-- Deployed Grafana to Kubernetes using helm
-- Created a nodeport serviceeee to expose to localhost 
-- Set up a dashboard to monitor cluster information(memory, cpu, working nodes...)
+- Deployed Grafana to Kubernetes using helm (Done)
+- Created a nodeport serviceeee to expose to localhost (Done)
+- Set up a dashboard to monitor cluster information(memory, cpu, working nodes...) (Done)
 
