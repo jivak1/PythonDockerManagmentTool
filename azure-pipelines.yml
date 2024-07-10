@@ -29,6 +29,7 @@ stages:
           $(tag)
   - job: Push_to_registry
     displayName: Push to registry
+    dependsOn: Build
     pool:
       vmImage: ubuntu-latest
     steps:
