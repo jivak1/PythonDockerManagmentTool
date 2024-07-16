@@ -1,0 +1,91 @@
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: bitnami/mysql
+  tag: 8.0.28-debian-10-r56
+  pullPolicy: IfNotPresent
+
+mysqlRootPassword: your-root-password
+mysqlUser: your-username
+mysqlPassword: your-password
+mysqlDatabase: your-database-name
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 8Gi
+
+mysql:
+  initdbScripts: []
+
+service:
+  type: ClusterIP
+  port: 3306
+
+securityContext:
+  enabled: true
+  fsGroup: 1001
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+affinity: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+ingress:
+  enabled: false
+  hosts:
+    - name: chart-example.local
+      path: /
+      pathType: ImplementationSpecific
+  annotations: {}
+  tls: []
+
+podDisruptionBudget:
+  enabled: false
+
+metricsExporter:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: bitnami/mysqld-exporter
+    tag: 0.13.0-debian-10-r3
+    pullPolicy: IfNotPresent
+
+extraContainers: []
+
+extraInitContainers: []
+
+podAnnotations: {}
+
+podLabels: {}
+
+resources: {}
+
+loadBalancerIP:
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 11
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
